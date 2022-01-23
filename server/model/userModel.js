@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
 
-const userSchema = new.mongoose.Schema({
+const userSchema = new mongoose.Schema({
 
     //password shouldnt be visible in database
     name:{
         type:String,
-        required: true,
+        required: true
     },
     decribtion:{
         type:String
@@ -22,8 +22,9 @@ const userSchema = new.mongoose.Schema({
         type: String,
         required: true,
         select: false
+        //password managment uygula
     },
-    userRole:{
+    role:{
         type: String,
         enum: ["user", "owner", "admin"],   
         default: "user"
