@@ -1,15 +1,45 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import HomePage from './HomePage'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <HomePage />
-      </Head>
 
+export default function Home({data}) {
+  
+  return(
+    <div>
+      <div>
+        <Link href="/login">Login</Link> 
+      </div>
+      <div>
+        {data.map((info)=> (
+          <h1 key={info._id}>
+            {info.name}
+          </h1>
+        ))}
+      </div>
     </div>
   )
 }
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch('http://localhost:3001/shop')
+  const data = await res.json()
+
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      data,
+    },
+  }
+}
+
+
+/*
+<div>
+<Link href="/user">user</Link>
+</div>
+
+*/

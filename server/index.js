@@ -22,10 +22,10 @@ const connectionParams={
 
 mongoose.connect(serverURL, connectionParams)
     .then( () => {
-        console.log('Connected to the Database ')
+        console.log('Connected to the Database')
     })
     .catch( (err) => {
-        console.error("Error connecting to the database.");
+        console.error("Error connecting to the database.", err);
     })
 
 app.use(express.json());
