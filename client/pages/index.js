@@ -12,9 +12,11 @@ export default function Home({data}) {
       </div>
       <div>
         {data.map((info)=> (
-          <h1 key={info._id}>
-            {info.name}
-          </h1>
+          <Link href= {"/" + info._id} key={info._id}>
+            <h1>
+              {info.name}
+            </h1>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,36 +1,37 @@
 import React from 'react';
 import {useRouter} from "next/router"
 
-function shop({shop}) {
-    const router= useRouter()
-    const {id} = router.query
-    console.log(shop)
-  return (
-    <div>
-        <h1>Hey {id} </h1>
-        <h2>{shop.name} </h2>
-    </div>
-    )
-}
-
-export default shop;
-
-export async function getStaticProps({param}){
-  const req = await fetch(`http://localhost:3001/shop/${param.id}`)
-  const data = await req.json()
-  return{
-    props:{shop: data}
-  }
-}
-
 export async function getStaticPaths() {
-    const req = await fetch("http://localhost:3001/shop")
-    const data = await req.json()
+    const res = await fetch("http://localhost:3001/shop")
+    const data = await res.json()
     const paths =data.map(shop => {
-      return{ params: {id: shop.toString()} }
+      return{
+        params: {id: shop._id.toString() } 
+      }
     })
     return{
       paths,
       fallback: false
     }
 }
+
+export async function getStaticProps({params}){
+  const id = params.id
+  const res = await fetch("http://localhost:3001/shop/" + id)
+  const data = await res.json()
+  return{
+    props:{shop: data}
+  }
+}
+
+
+function shop({shop}) {
+  
+return (
+  <div>
+      <h1>{shop.name}</h1>
+  </div>
+  )
+}
+
+export default shop;
