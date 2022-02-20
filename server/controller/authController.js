@@ -90,14 +90,21 @@ exports.registerUser = async(req, res) => {
 
 
 exports.restrictTo = (...roles)=> {
-    console.log(roles)
-    return (req, res, next) =>{
-        if(!roles.includes(req.user.role)){
-            console.log(req.params.id)
-            console.log(req.user)
-            const auser = User.findById(req.user.id)
-            
-            //sadece id var role yok neden??
+    return async (req, res, next) =>{
+        //Take the token from the header Bearer ... 
+            //[1] token part
+        const token = req.headers.authorization.split(" ")[1]
+        //Decode the token
+        const decoded_token = jwt.verify(token, process.env.TOKEN_KEY)
+        //Take the tokens id part
+        const user_id = decoded_token.id
+        //Find the user by id
+        const user = await User.findById(user_id)
+        //Take the user Role
+        const role = user.role
+        //If the role equals to the restriction return continue else throw error
+        if(roles[0] !== role){
+            console.log("Not authorized")
             return next(res.status(400).json("Error"))
         }
     next()

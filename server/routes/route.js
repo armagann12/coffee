@@ -13,18 +13,18 @@ router
 router
     .route("/shop/:id")
     .get(shopController.getShop)
-    .put(authController.verifyToken,  shopController.updateShop)//owner-admin
-    .delete(authController.verifyToken,  shopController.deleteShop)//admin
+    .put(authController.restrictTo("owner"), authController.verifyToken, shopController.updateShop)//owner-admin ??
+    .delete(authController.restrictTo("admin"), authController.verifyToken,  shopController.deleteShop)//admin
 
 router
     .route("/user")
-    .get(authController.verifyToken, userController.getAllUsers)//admin
+    .get(authController.restrictTo("admin"), authController.verifyToken, userController.getAllUsers)//admin
 
 router
     .route("/user/:id")
-    .get(authController.verifyToken,  userController.getUser) //admin
-    .put(authController.verifyToken,  userController.updateUser) //admin
-    .delete(authController.verifyToken, userController.deleteUser)//admin
+    .get(authController.restrictTo("admin"), authController.verifyToken,  userController.getUser) //admin
+    .put(authController.restrictTo("admin"), authController.verifyToken,  userController.updateUser) //admin ??
+    .delete(authController.restrictTo("admin"), authController.verifyToken, userController.deleteUser)//admin
 
 router
     .route("/register")
