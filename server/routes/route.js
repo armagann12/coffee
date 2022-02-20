@@ -8,16 +8,23 @@ const authController =require("./../controller/authController")
 router
     .route("/shop",)
     .get(shopController.getAllShops)
+    .post(authController.verifyToken,  shopController.createShop)//admin
 
 router
     .route("/shop/:id")
     .get(shopController.getShop)
+    .put(authController.verifyToken,  shopController.updateShop)//owner-admin
+    .delete(authController.verifyToken,  shopController.deleteShop)//admin
+
+router
+    .route("/user")
+    .get(authController.verifyToken, userController.getAllUsers)//admin
 
 router
     .route("/user/:id")
-    .get(authController.verifyToken,  userController.getUser) //authController.restrictTo("user"),
-    .put(authController.verifyToken,  userController.updateUser) //authController.restrictTo("user"),
-
+    .get(authController.verifyToken,  userController.getUser) //admin
+    .put(authController.verifyToken,  userController.updateUser) //admin
+    .delete(authController.verifyToken, userController.deleteUser)//admin
 
 router
     .route("/register")
@@ -26,20 +33,6 @@ router
 router
     .route("/login")
     .post(authController.loginUser)
-
-//For Dashbords
-
-router 
-    .route("/admin") //get ekliycen hepsi için teker teker için
-    .post(authController.verifyToken,  shopController.createShop) //authController.restrictTo("admin"),
-    .put(authController.verifyToken,  shopController.updateShop) //authController.restrictTo("admin"),
-    .delete(authController.verifyToken,  shopController.deleteShop) //authController.restrictTo("admin"),
-
-router
-    .route("owner") //kendi shop get
-    .put(authController.verifyToken,  shopController.updateShop) //authController.restrictTo("owner"),
-
-
 
 
 module.exports = router;

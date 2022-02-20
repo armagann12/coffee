@@ -55,7 +55,7 @@ exports.loginUser = async(req, res) =>{
         }
         res.status(400).send(Invalid)
     }catch(err){
-        res.status(400).json(err.message);
+        res.status(400)
     }
 }
 
@@ -89,9 +89,15 @@ exports.registerUser = async(req, res) => {
 }
 
 
-exports.restrictTo = (...role)=> {
+exports.restrictTo = (...roles)=> {
+    console.log(roles)
     return (req, res, next) =>{
-        if(!role.includes(req.user.role)){
+        if(!roles.includes(req.user.role)){
+            console.log(req.params.id)
+            console.log(req.user)
+            const auser = User.findById(req.user.id)
+            
+            //sadece id var role yok neden??
             return next(res.status(400).json("Error"))
         }
     next()

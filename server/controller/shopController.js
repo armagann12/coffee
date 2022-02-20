@@ -34,8 +34,11 @@ exports.createShop = async (req, res) => {
 
 exports.deleteShop = async (req,res) => {
     try{
-        const shop = await Shop.findOneAndDelete(req.params.id)
-        res.json(shop)
+        const shop = await Shop.findByIdAndDelete(req.params.id)
+        res.status(204).json({
+            status: 'success',
+            data: "Deleted"
+          });
     }catch(err){
         res.status(400).json(err.message);
     }
@@ -43,11 +46,11 @@ exports.deleteShop = async (req,res) => {
 
 exports.updateShop = async (req,res) => {
     try{
-        const shop = await Shop.findOneAndUpdate({
+        const shop = await Shop.findByIdAndUpdate(req.params.id, req.body,{
             name: req.name,
             describtion: req.describtion
         })
-        res.json(shop)
+        res.json("Updated")
     }catch(err){
         res.status(400).json(err.message);
     }
