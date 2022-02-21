@@ -32,7 +32,8 @@ const userSchema = new mongoose.Schema({
     },
     token:{
         type: String
-    }
+    },
+    shop:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' }]
 })
 
 const User = mongoose.model("User", userSchema)
